@@ -2,9 +2,10 @@
 // Created by casez on 3/6/2024.
 //
 
-#ifndef PROJECT2_IMAGE_H
-#define PROJECT2_IMAGE_H
 
+#pragma once
+#include <vector>
+using namespace std;
 
 class image {
     struct Header {
@@ -20,15 +21,34 @@ class image {
         short height;
         char bitsPerPixel;
         char imageDescriptor;
+        Header& operator=(const Header& other){
+            this->idLength = other.idLength;
+            this->colorMapType= other.colorMapType;
+            this->dataTypeCode= other.dataTypeCode;
+            this->colorMapOrigin= other.colorMapOrigin;
+            this->colorMapLength= other.colorMapLength;
+            this->colorMapDepth= other.colorMapDepth;
+            this->xOrigin= other.xOrigin;
+            this->yOrigin= other.yOrigin;
+            this->width= other.width;
+            this->height= other.height;
+            this->bitsPerPixel= other.bitsPerPixel;
+            this->imageDescriptor= other.imageDescriptor;
+            return *this;
+        }
         };
+public:
     struct Color{
         int blue;
         int green;
         int red;
     };
+
     Header header;
-    Color* arr;
+    vector<vector<Color>> arr;
+    image();
+    ~image();
 };
 
 
-#endif //PROJECT2_IMAGE_H
+
