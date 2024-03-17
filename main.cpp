@@ -59,13 +59,14 @@ int main(int argc, char* argv[]) {
         cout << "File does not exist." << endl;
         return 0;
     }
+
     image tracking = printer.read(trackingfile);
 
     if (argc == 3) {
         cout << "Invalid method name." << endl;
         return 0;
     }
-    cout << tracking.arr.at(400).at(400).blue << endl;
+    cout << tracking.arr.at(301).at(301).green << endl;
     while(count < argc) {
         string cmd = argv[count];
         count++;
@@ -236,6 +237,7 @@ int main(int argc, char* argv[]) {
             int add = stoi(s);
             count++;
             tracking = printer.addgreen(tracking, add);
+
         }
         else if(cmd == "scalered"){
             if (count == argc) {
@@ -285,7 +287,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    cout << tracking.arr.at(400).at(400).blue << endl;
+    cout << tracking.arr.at(301).at(301).green << endl;
     printer.write(outfile, tracking);
     cout << count << endl << argc << endl;
     return 0;

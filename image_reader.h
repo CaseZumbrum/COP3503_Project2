@@ -22,9 +22,9 @@ public:
     image addred(image& one, int pixel);
     image addgreen(image& one, int pixel);
     image addblue(image& one, int pixel);
-    image scalered(image& one, int scale);
-    image scalegreen(image& one, int scale);
-    image scaleblue(image& one, int scale);
+    image scalered(image& one, float scale);
+    image scalegreen(image& one, float scale);
+    image scaleblue(image& one, float scale);
     image combine(image& one, image& two, image& three);
     image flip(image& one);
 };

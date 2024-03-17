@@ -124,13 +124,13 @@ image image_reader::Multiply(image& one, image& two) {
             float oneblue = (float)one.arr.at(i).at(j).blue/255;
             float twoblue = (float)two.arr.at(i).at(j).blue/255;
             //cout << oneblue << endl <<twoblue << endl;
-            out.arr.at(i).at(j).blue = (int)(255.0f*(oneblue * twoblue) + 0.5f);
+            out.arr.at(i).at(j).blue = (unsigned int)(255.0f*(oneblue * twoblue) + 0.5f);
             float onegreen = (float)one.arr.at(i).at(j).green/255.0f;
             float twogreen = (float)two.arr.at(i).at(j).green/255.0f;
-            out.arr.at(i).at(j).green = (int)(255.0f*(onegreen * twogreen) + 0.5f);
+            out.arr.at(i).at(j).green = (unsigned int)(255.0f*(onegreen * twogreen) + 0.5f);
             float onered = (float)one.arr.at(i).at(j).red/255.0f;
             float twored = (float)two.arr.at(i).at(j).red/255.0f;
-            out.arr.at(i).at(j).red = (int)(255.0f*(onered * twored) + 0.5f);
+            out.arr.at(i).at(j).red = (unsigned int)(255.0f*(onered * twored) + 0.5f);
         }
     }
     return out;
@@ -144,9 +144,9 @@ image image_reader::Screen(image& one, image& two) {
         for(int j = 0; j < one.header.height; j++){
             image::Color c;
             out.arr.at(i).push_back(c);
-            out.arr.at(i).at(j).blue = (int)(255.0f*(1 - ((1-one.arr.at(i).at(j).blue/255.0f) * (1-two.arr.at(i).at(j).blue/255.0f))) + 0.5f);
-            out.arr.at(i).at(j).green = (int)(255.0f*(1 - ((1-one.arr.at(i).at(j).green/255.0f) * (1-two.arr.at(i).at(j).green/255.0f))) + 0.5f);
-            out.arr.at(i).at(j).red = (int)(255.0f*(1 - ((1-one.arr.at(i).at(j).red/255.0f) * (1-two.arr.at(i).at(j).red/255.0f))) + 0.5f);
+            out.arr.at(i).at(j).blue = (unsigned int)(255.0f*(1 - ((1-one.arr.at(i).at(j).blue/255.0f) * (1-two.arr.at(i).at(j).blue/255.0f))) + 0.5f);
+            out.arr.at(i).at(j).green = (unsigned int)(255.0f*(1 - ((1-one.arr.at(i).at(j).green/255.0f) * (1-two.arr.at(i).at(j).green/255.0f))) + 0.5f);
+            out.arr.at(i).at(j).red = (unsigned int)(255.0f*(1 - ((1-one.arr.at(i).at(j).red/255.0f) * (1-two.arr.at(i).at(j).red/255.0f))) + 0.5f);
         }
     }
     return out;
@@ -219,14 +219,22 @@ image image_reader::Overlay(image& one, image& two) {
             out.arr.at(i).push_back(c);
 
             if(two.arr.at(i).at(j).blue/255.0f <= 0.5f){
-                out.arr.at(i).at(j).blue = (int)(255.0f*(2*(one.arr.at(i).at(j).blue/255.0f) * (two.arr.at(i).at(j).blue/255.0f)) + 0.5f);
-                out.arr.at(i).at(j).green = (int)(255.0f*(2*(one.arr.at(i).at(j).green/255.0f) * (two.arr.at(i).at(j).green/255.0f)) + 0.5f);
-                out.arr.at(i).at(j).red = (int)(255.0f*(2*(one.arr.at(i).at(j).red/255.0f) * (two.arr.at(i).at(j).red/255.0f)) + 0.5f);
+                out.arr.at(i).at(j).blue = (unsigned int)(255.0f*(2*(one.arr.at(i).at(j).blue/255.0f) * (two.arr.at(i).at(j).blue/255.0f)) + 0.5f);
             }
             else {
-                out.arr.at(i).at(j).blue = (int) (255.0f * (1 - (2 * (1 - one.arr.at(i).at(j).blue / 255.0f) * (1 - two.arr.at(i).at(j).blue / 255.0f))) + 0.5f);
-                out.arr.at(i).at(j).green = (int) (255.0f * (1 - (2 * (1 - one.arr.at(i).at(j).green / 255.0f) * (1 - two.arr.at(i).at(j).green / 255.0f))) + 0.5f);
-                out.arr.at(i).at(j).red = (int) (255.0f * (1 - (2 * (1 - one.arr.at(i).at(j).red / 255.0f) * (1 - two.arr.at(i).at(j).red / 255.0f))) + 0.5f);
+                out.arr.at(i).at(j).blue = (unsigned int) (255.0f * (1 - (2 * (1 - one.arr.at(i).at(j).blue / 255.0f) * (1 - two.arr.at(i).at(j).blue / 255.0f))) + 0.5f);
+            }
+            if(two.arr.at(i).at(j).green/255.0f <= 0.5f){
+                out.arr.at(i).at(j).green = (unsigned int)(255.0f*(2*(one.arr.at(i).at(j).green/255.0f) * (two.arr.at(i).at(j).green/255.0f)) + 0.5f);
+            }
+            else {
+                out.arr.at(i).at(j).green = (unsigned int) (255.0f * (1 - (2 * (1 - one.arr.at(i).at(j).green / 255.0f) * (1 - two.arr.at(i).at(j).green / 255.0f))) + 0.5f);
+            }
+            if(two.arr.at(i).at(j).red/255.0f <= 0.5f){
+                out.arr.at(i).at(j).red = (unsigned int)(255.0f*(2*(one.arr.at(i).at(j).red/255.0f) * (two.arr.at(i).at(j).red/255.0f)) + 0.5f);
+            }
+            else {
+                out.arr.at(i).at(j).red = (unsigned int) (255.0f * (1 - (2 * (1 - one.arr.at(i).at(j).red / 255.0f) * (1 - two.arr.at(i).at(j).red / 255.0f))) + 0.5f);
             }
         }
     }
@@ -350,7 +358,7 @@ image image_reader::addblue(image &one, int pixel) {
 }
 
 
-image image_reader::scalered(image &one, int scale) {
+image image_reader::scalered(image &one, float scale) {
     image two;
     two.header = one.header;
     for(int i = 0; i < one.header.width; i++){
@@ -359,7 +367,7 @@ image image_reader::scalered(image &one, int scale) {
             image::Color c;
             two.arr.at(i).push_back(c);
             two.arr.at(i).at(j).blue = one.arr.at(i).at(j).blue;
-            two.arr.at(i).at(j).red = (int)(255.0f*((one.arr.at(i).at(j).red/255.0f) * scale ) + 0.5f);
+            two.arr.at(i).at(j).red = (unsigned int)((one.arr.at(i).at(j).red * scale ) + 0.5f);
             two.arr.at(i).at(j).green = one.arr.at(i).at(j).green;
 
             if(two.arr.at(i).at(j).red > 255){
@@ -370,7 +378,7 @@ image image_reader::scalered(image &one, int scale) {
     return two;
 }
 
-image image_reader::scalegreen(image &one, int scale) {
+image image_reader::scalegreen(image &one, float scale) {
     image two;
     two.header = one.header;
     for(int i = 0; i < one.header.width; i++){
@@ -379,7 +387,7 @@ image image_reader::scalegreen(image &one, int scale) {
             image::Color c;
             two.arr.at(i).push_back(c);
             two.arr.at(i).at(j).blue = one.arr.at(i).at(j).blue;
-            two.arr.at(i).at(j).green = (int)(255.0f*((one.arr.at(i).at(j).green/255.0f) * scale ) + 0.5f);
+            two.arr.at(i).at(j).green = (unsigned int)((one.arr.at(i).at(j).green * scale ) + 0.5f);
             two.arr.at(i).at(j).red = one.arr.at(i).at(j).red;
 
             if(two.arr.at(i).at(j).green > 255){
@@ -390,7 +398,7 @@ image image_reader::scalegreen(image &one, int scale) {
     return two;
 }
 
-image image_reader::scaleblue(image &one, int scale) {
+image image_reader::scaleblue(image &one, float scale) {
     image two;
     two.header = one.header;
     for(int i = 0; i < one.header.width; i++){
@@ -399,7 +407,7 @@ image image_reader::scaleblue(image &one, int scale) {
             image::Color c;
             two.arr.at(i).push_back(c);
             two.arr.at(i).at(j).red = one.arr.at(i).at(j).red;
-            two.arr.at(i).at(j).blue = (int)(255.0f*((one.arr.at(i).at(j).blue/255.0f) * scale ) + 0.5f);
+            two.arr.at(i).at(j).blue = (unsigned int)((one.arr.at(i).at(j).blue * scale ) + 0.5f);
             two.arr.at(i).at(j).green = one.arr.at(i).at(j).green;
 
             if(two.arr.at(i).at(j).blue > 255){
